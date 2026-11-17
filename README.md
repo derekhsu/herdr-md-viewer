@@ -2,7 +2,9 @@
 
 在 [Herdr](https://herdr.dev) 桌面版（herdr app）的窗格中渲染 Markdown 檔案的 mod。
 
-> **English:** A Herdr desktop app mod that renders a Markdown file in a pane — hides YAML frontmatter and reloads automatically when the file changes. Install by cloning into `~/.config/herdr-app/mods/md-viewer`, then open it with `herdr-app do pane.split '{"direction":"right","mod":"md-viewer","props":{"file":"~/notes/README.md"}}'`. Files larger than 1 MiB cannot be read.
+> **English:** A Herdr desktop app mod that renders a Markdown file in a pane — hides YAML frontmatter and reloads automatically when the file changes. Install by asking an agent in Herdr app to “add herdr.dev/mods/derekhsu/herdr-md-viewer”, or clone the repo elsewhere and `cp -R mods/md-viewer ~/.config/herdr-app/mods/`. Open it with `herdr-app do pane.split '{"direction":"right","mod":"md-viewer","props":{"file":"~/notes/README.md"}}'`. Files larger than 1 MiB cannot be read.
+
+![md-viewer](preview.png)
 
 ## 功能
 
@@ -14,27 +16,38 @@
 
 ## 安裝
 
+### 方式一：請 herdr app 裡的 agent 安裝
+
+本 mod 已收錄於 [herdr.dev/mods](https://herdr.dev/mods)。在 herdr app 的 agent 中輸入：
+
+```text
+加入 herdr.dev/mods/derekhsu/herdr-md-viewer
+```
+
+agent 會依 [RECIPE.md](RECIPE.md) 與檔案把 mod 複製到 `~/.config/herdr-app/mods/`，並以 `herdr-app check` 驗證。
+
+### 方式二：手動安裝
+
+repo 的結構與 herdr app 的 home（`~/.config/herdr-app`）相同，mod 在 `mods/md-viewer/`：
+
 ```sh
-git clone https://github.com/derekhsu/herdr-md-viewer.git ~/.config/herdr-app/mods/md-viewer
+git clone https://github.com/derekhsu/herdr-md-viewer.git ~/src/herdr-md-viewer
+cp -R ~/src/herdr-md-viewer/mods/md-viewer ~/.config/herdr-app/mods/
+herdr-app check ~/.config/herdr-app/mods/md-viewer
 ```
 
 資料夾名稱必須是 `md-viewer`，指令中的 `"mod":"md-viewer"` 才對得上。herdr app 會自動偵測新的 mod，不需要重新啟動。
 
-驗證可以載入：
-
-```sh
-herdr-app check ~/.config/herdr-app/mods/md-viewer
-```
-
 ### 更新
 
 ```sh
-git -C ~/.config/herdr-app/mods/md-viewer pull
+git -C ~/src/herdr-md-viewer pull
+cp -R ~/src/herdr-md-viewer/mods/md-viewer ~/.config/herdr-app/mods/
 ```
 
 herdr app 偵測到檔案變更後會就地重新載入已開啟的 viewer。
 
-> herdr app 啟動時會在 mod 目錄自動產生 `gpui-kit.d.ts` 與 `jsconfig.json`，這兩個檔案已列在 `.gitignore`，不會影響 `git pull`。
+> herdr app 會在 mod 目錄自動產生 `gpui-kit.d.ts` 與 `jsconfig.json`，這兩個檔案已列在 `.gitignore`。
 
 ## 用法
 
